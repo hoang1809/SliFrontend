@@ -1,0 +1,44 @@
+.bg-active {
+  background: #379237;
+}
+
+.checkbox-radius {
+  border-radius: 100%;
+}
+
+.line-with-text {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  .line {
+    border-top: 2px solid var(--primary-color);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+  }
+
+  .text {
+    background-color: white;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+    display: inline;
+  }
+}
+
+.otp-container {
+  .otp-input-container {
+    justify-content: center;
+    gap: 20px;
+    .otp-input {
+      width: 48px !important;
+      height: 48px;
+      border: 1px solid #c8c8c8;
+      border-radius: 5px;
+      &:focus-visible {
+        outline: 2px solid #c8c8c8;
+      }
+    }
+  }
+}

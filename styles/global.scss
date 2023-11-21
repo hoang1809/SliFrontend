@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #315E38;
+  --primary-blur-color:#80A485;
+  --primary-disabled-color: #BED0C5;
+
+  --secondary-color: #222;
+
+  --white-color: #FFF;
+  --white-blur-color: #E0E0E0;
+  --grey-clor: #AEAEAE;
+
+  --cancel-color: #E22A2A;
+  --background-color: #EBF4EC;
+}
+
+body {
+  font-family: 'Helvetica', sans-serif;
+  color: black; 
+}
+
+
+
+@media (min-width: 1280px) {
+  .h-180 {
+    max-height: 180px !important;
+  }
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  width: 3px !important;
+  display: none;
+}

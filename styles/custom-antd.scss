@@ -1,0 +1,63 @@
+.main-layout-custom {
+  .ant-layout-content {
+    // background: linear-gradient(180deg, #d9c9ea 0%, #f6e5db 100%);
+    background: white;
+  }
+}
+
+.ant-custom-table {
+  .ant-table-content {
+    .ant-table-thead {
+      .ant-table-cell {
+        background: #e9bbbb;
+        margin-right: 2px;
+        text-align: center;
+        border-bottom: 2px solid white;
+        &::before {
+          width: 2px !important;
+          height: 100% !important;
+          background-color: white !important;
+        }
+      }
+    }
+    .ant-table-tbody {
+      .ant-table-row {
+        background: #fcefef;
+        .ant-table-cell {
+          border-right: 2px solid white !important;
+          text-align: center;
+        }
+      }
+    }
+    .ant-table-tbody > tr > td {
+      border-bottom: 2px solid white;
+    }
+  }
+}
+
+.select-custom {
+  .ant-select-selector {
+    height: 37px !important;
+    border-radius: 2px !important;
+    border: 0.5px solid rgba(130, 127, 127, 0.61) !important;
+    // background: rgba(142, 129, 129, 0.15) !important;
+    color: rgba(0, 0, 0, 0.36);
+  }
+}
+
+.date-picker-custom {
+}
+.ant-checkbox-checked {
+  &:hover {
+    border: none;
+    outline: none;
+  }
+  .ant-checkbox-inner {
+    background-color: #d99bff;
+    border-color: #d99bff;
+  }
+}
+
+.ant-card-body {
+  padding: 0;
+}
