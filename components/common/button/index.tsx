@@ -4,29 +4,28 @@ interface IButton extends ButtonProps {
   fullwidth?: boolean | string;
   h?: '56px' | '40px' | '36px' | '';
   borderRadius?: '16px' | '';
-  border?: 'green' | '';
   btntype?: 'primary' | 'secondary';
   w?: string;
 }
 const ButtonCustom = (props: IButton) => {
   const { children, fullwidth, className, h, borderRadius, w, loading = false, btntype = 'primary' } = props;
-  const widthBtn = fullwidth ? 'w-full' : w;
+  const widthBtn = fullwidth ? 'w-full' : 'w-full';
   let classNameCustom = '';
   if (btntype === 'primary') {
-    classNameCustom += 'bg-primary-color hover:bg-primary-blur-color text-white hover:text-white border-none';
+    classNameCustom += 'bg-[#F2584C]';
   }
   if (btntype === 'secondary') {
     classNameCustom +=
-      'bg-white-color hover:bg-white-color text-primary-color hover:text-primary-color border-primary-color hover:border-primary-color border-[1px] border-solid';
+      'bg-orange-500 text-white-color border-none';
   }
-  const heightBtn = h === '56px' ? 'h-[56px]' : h === '40px' ? 'h-[40px]' : h === '36px' ? 'h-[36px]' : 'h-[36px]';
+  const heightBtn = h === '56px' ? 'h-[56px]' : h === '40px' ? 'h-[40px]' : h === '36px' ? 'h-[36px]' : 'h-[72px]';
   const borderRadiusBtn = borderRadius === '16px' ? 'rounded-[16px]' : 'rounded-[16px]';
 
   return (
     <Button
       {...props}
       loading={loading}
-      className={`${classNameCustom} ${widthBtn} ${heightBtn} ${borderRadiusBtn} ${className}`}
+      className={`${classNameCustom} flex justify-center items-center border-none hover:bg-[#F2584C] focus:bg-[#F2584C] ${widthBtn} ${heightBtn} ${borderRadiusBtn} ${className}`}
     >
       <span className={`font-bold ${className} `}>{children}</span>
     </Button>

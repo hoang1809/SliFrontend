@@ -8,22 +8,38 @@ interface InputPropsCustom extends InputProps {
   error?: boolean;
 }
 const InputCustom = (props: InputPropsCustom) => {
-  const { h, w, rounded, error, placeholder } = props;
-  const heightInput = h === '32px' ? 'h-[32px]' : h === '48px' ? 'h-[48px]' : 'h-[56px]';
-  const roundedInput = rounded === '0' ? '' : 'rounded-[16px]';
+  const { w, error, placeholder } = props;
   const widthInput = w ? w : 'w-full';
   const borderInput =
-    'border-[#315E38] border-[1px] border-solid hover:border-[#315E38] focus:border-[#315E38] focus:shadow-inherit text-[17px]';
+    'border-b border-[1px] border-solid hover:border-none focus:border-none shadow-none hover:shadow-none focus:shadow-none text-[17px]';
   return (
     <Input
       {...props}
       placeholder={placeholder ?? 'Placeholder'}
-      className={`${heightInput} ${roundedInput} ${widthInput} ${borderInput} ${
+      className={` ${widthInput} ${borderInput} h-[46px] ${
         error ? 'border-[red] border-[1px] border-solid' : ''
       }`}
     />
   );
 };
+
+
+const InputPassword = (props: InputPropsCustom) => {
+  const { w, error, placeholder } = props;
+  const widthInput = w ? w : 'w-full';
+  const borderInput =
+    'border-b border-[1px] border-solid hover:border-none focus:border-none shadow-none hover:shadow-none focus:shadow-none text-[17px]';
+  return (
+    <Input.Password
+      {...props}
+      placeholder={placeholder ?? 'Placeholder'}
+      className={` ${widthInput} ${borderInput} h-12 ${
+        error ? 'border-[red] border-[1px] border-solid' : ''
+      }`}
+    />
+  );
+};
+
 interface InputSearchProps {
   onChange?: (val: string) => void;
   onSearchClick?: () => void;
@@ -54,4 +70,5 @@ const InputSearchCustom = ({ onChange, onSearchClick }: InputSearchProps) => {
 };
 
 export { InputSearchCustom };
-export default InputCustom;
+export { InputPassword };
+export { InputCustom };
