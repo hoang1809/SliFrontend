@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import TempalteLogin from 'components/templates/login';
-import { Form, Checkbox } from 'antd';
-import { InputPassword, InputCustom } from 'components/common/input';
+import { Form, Checkbox, message } from 'antd';
+import  {InputPassword } from 'components/common/input';
+import InputCustom from 'components/common/input';
 import ButtonCustom from 'components/common/button';
 import { useRouter } from "next/router"
 
@@ -10,9 +11,41 @@ import { useRouter } from "next/router"
 export default function Login() {
     const router = useRouter()
 
-    const onFinish = (values: any) => {
-        router.push('/')
-    };
+    // const onFinish = (values: any) => {
+    //     router.push('/')
+    // };
+
+    const onFinish = async (values: any) => {
+        try {
+          const isEmail = values.username.includes('@');
+          const email = isEmail ? values.username : '';
+          const phoneNumber = isEmail ? '' : values.username;
+      
+          const dataToSend = {
+            email,
+            phoneNumber,
+            password: values.password,
+          };
+      
+          const response = await fetch('http://47.128.244.84:8001/auth/login', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSend),
+          });
+      
+          if (response.ok) {
+            message.success('Login successful');
+          } else {
+            message.error('Login failed. Please check your credentials.');
+          }
+        } catch (error) {
+          console.error('Error during login:', error);
+          message.error('Login failed. Please try again later.');
+        }
+      };
 
     return (
         <TempalteLogin>
@@ -54,12 +87,6 @@ export default function Login() {
                         </Link>
                     </div>
                     <Form.Item>
-                        {/* <Button 
-                            block
-                            type="primary"
-                            htmlType="submit"
-                            className='h-[72px] bg-[#F2584C] rounded-[16px] hover:bg-[#F2584C] border-none p-2.5 justify-center items-center'>ĐĂNG NHẬP
-                        </Button> */}
                         <ButtonCustom type='primary' htmlType='submit'>ĐĂNG NHẬP</ButtonCustom>
                     </Form.Item>
                 </Form>
@@ -67,7 +94,7 @@ export default function Login() {
 
             <div className='flex justify-center text-[17px]'>
                     <p>Chưa có tài khoản?</p>
-                    <Link href="/register">
+                    <Link href="/signup">
                         <a className='font-bold text-[#f2584c] hover:text-orange-700' href="signup">Đăng ký ngay</a>
                     </Link>
             </div>

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import TempalteLogin from 'components/templates/login';
 import { Button, Form, Input,} from 'antd';
 import nameIcon from 'public/assets/icons/email.svg'
-import { InputCustom } from 'components/common/input';
+import  InputCustom  from 'components/common/input';
 import ButtonCustom from 'components/common/button';
 import { useRouter } from 'next/router';
 

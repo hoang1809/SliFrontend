@@ -1,37 +1,49 @@
 import Link from 'next/link';
 import TempalteLogin from 'components/templates/login';
-import { Form } from 'antd';
-import { InputPassword, InputCustom } from 'components/common/input';
+import { Form, message } from 'antd';
+import  InputPassword  from 'components/common/input';
+import   InputCustom   from 'components/common/input';
 import { useRouter } from 'next/router';
 import ButtonCustom from 'components/common/button';
-import { SyntheticEvent, useState } from 'react';
 
-export default function Register() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [phoneNumber, setphoneNumber] = useState('');
-    const isHost = 'false';
-    //const router = useRouter();
+export default function Signup() {
+    const router = useRouter()
 
-    const onFinish = async (e: SyntheticEvent) => {
-        //e.preventDefault();
+    // const onFinish = (values: any) => {
+    //     router.push('login')
+    // };
+    const onFinish = async (values: any) => {
+        try {
 
-        await fetch('http://47.128.244.84:8001/auth/register', {
-            method: "POST",
-            //mode: "no-cors",
-            headers: {'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name,
+            const isEmail = values.email.includes('@');
+            const email = isEmail ? values.email : '';
+            const phoneNumber = isEmail ? '' : values.email;
+
+            const dataToSend = {
                 email,
-                password,
                 phoneNumber,
-                isHost
-            })
-        });
+                password: values.password,
+                name: values.name
+            };
+            const response = await fetch('http://47.128.244.84:8001/auth/register', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSend),
+            });
 
-        //await router.push('login');
-    }
+            if (response.ok) {
+                message.success('Registration successful');
+            } else {
+                message.error('Registration failed');
+            }
+        } catch (error) {
+            console.error('Error during registration:', error);
+            message.error('Registration failed');
+        }
+    };
 
     return (
         <TempalteLogin>
@@ -42,52 +54,40 @@ export default function Register() {
 
             <div className="w-full">
                 <Form onFinish={onFinish} className=' space-y-8'>
-                    <Form.Item label='' name="username" className='mb-0'>
+                    <Form.Item label='' name="name" className='mb-0'>
                         <div className="flex items-center m-0 space-x-6">
                             <img src="/assets/icons/user-square.svg" alt="usernameicon" />
                             <InputCustom
                                 style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
                                 placeholder="Họ và tên"
-                                required
-                                onChange={e => setName(e.target.value)}></InputCustom>
+                                required></InputCustom>
                         </div>
                     </Form.Item>
 
-                    <Form.Item label='' name="email" className='mb-0' rules={[{pattern: /^(?:\d{10}|\S+@\S+\.\S+)$/, message:'Số điện thoại hoặc email không hợp lệ!'}]}>
+                    <Form.Item label='' name="email" className='mb-0' rules={[{ pattern: /^(?:\d{10}|\S+@\S+\.\S+)$/, message: 'Số điện thoại hoặc email không hợp lệ!' }]}>
                         <div className="flex items-center m-0 space-x-6">
                             <img src="/assets/icons/email.svg" alt="emailicon" />
                             <InputCustom
                                 style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
                                 placeholder="Nhập email hoặc số điện thoại"
-                                required
-                                onChange={e => setEmail(e.target.value)}></InputCustom>
+                                required></InputCustom>
                         </div>
                     </Form.Item>
 
-                    <Form.Item label='' name="phoneNumber" className='mb-0'>
-                        <div className="flex items-center m-0 space-x-6">
-                            <img src="/assets/icons/email.svg" alt="emailicon" />
-                            <InputCustom
-                                style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
-                                placeholder="Nhập số điện thoại"
-                                onChange={e => setphoneNumber(e.target.value)}></InputCustom>
-                        </div>
-                    </Form.Item>
 
                     <Form.Item label="" name="password"
                         rules={[
                             {
                                 required: true,
                             },
-                            {pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,20}$/, message:'Mật khẩu chứa ít nhất 8 kí tự bao gồm 1 chữ cái viết hoa và 1 số'}
+                            { pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,20}$/, message: 'Mật khẩu chứa ít nhất 8 kí tự bao gồm 1 chữ cái viết hoa và 1 số' }
                         ]}>
                         <div className="flex items-center space-x-6">
                             <img src="/assets/icons/password.svg" alt="passwordicon" />
                             <InputPassword
                                 style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
                                 placeholder="Nhập mật khẩu"
-                                required
-                                onChange={e => setPassword(e.target.value)}></InputPassword>
+                                required></InputPassword>
                         </div>
                     </Form.Item>
                     <Form.Item label='' name="confirm" dependencies={['password']}
@@ -108,28 +108,22 @@ export default function Register() {
                             <img src="/assets/icons/password.svg" alt="passwordicon" />
                             <InputPassword
                                 style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
-                                placeholder="Nhập lại mật khẩu" 
+                                placeholder="Nhập lại mật khẩu"
                                 required></InputPassword>
                         </div>
                     </Form.Item>
-                    
+
                     <Form.Item>
-                        {/* <Button 
-                            block
-                            type="primary"
-                            htmlType="submit"
-                            className='h-[72px] bg-[#F2584C] rounded-[16px] hover:bg-[#F2584C] border-none p-2.5 justify-center items-center'>ĐĂNG KÝ
-                        </Button> */}
                         <ButtonCustom type='primary' htmlType='submit'>ĐĂNG KÝ</ButtonCustom>
                     </Form.Item>
                 </Form>
             </div>
 
             <div className='flex justify-center text-[17px]'>
-                    <p>Đã có tài khoản?</p>
-                    <Link href="/login">
-                        <a className='font-bold text-[#f2584c] hover:text-orange-700' href="">Đăng nhập ngay</a>
-                    </Link>
+                <p>Đã có tài khoản?</p>
+                <Link href="/login">
+                    <a className='font-bold text-[#f2584c] hover:text-orange-700' href="">Đăng nhập ngay</a>
+                </Link>
             </div>
         </TempalteLogin>
     );

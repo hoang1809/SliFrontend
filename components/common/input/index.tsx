@@ -69,6 +69,6 @@ const InputSearchCustom = ({ onChange, onSearchClick }: InputSearchProps) => {
   );
 };
 
-export { InputSearchCustom };
+export  { InputSearchCustom };
 export { InputPassword };
-export { InputCustom };
+export default InputCustom ;

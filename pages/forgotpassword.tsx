@@ -1,7 +1,7 @@
 import ButtonCustom from 'components/common/button';
 import TempalteLogin from 'components/templates/login';
 import {Form} from 'antd';
-import { InputCustom } from 'components/common/input';
+import  InputCustom  from 'components/common/input';
 import { useRouter } from 'next/router';
 
 export default function Login() {
@@ -34,15 +34,6 @@ export default function Login() {
                     </Form.Item>
                     
                     <Form.Item>
-                            {/* <Button
-                                block
-                                type="primary"
-                                htmlType="submit"
-                                className='h-[72px] bg-[#F2584C] rounded-[16px] hover:bg-[#F2584C] border-none p-2.5 justify-center items-center'
-                                href = 'verificationcode'
-                                >GỬI MÃ XÁC NHẬN
-                            </Button> */}
-
                             <ButtonCustom type='primary' htmlType='submit'>GỬI MÃ XÁC NHẬN</ButtonCustom>
                     </Form.Item>
                 </Form>
