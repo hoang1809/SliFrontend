@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import TempalteLogin from 'components/templates/login';
 import { Form, message } from 'antd';
-import  InputPassword  from 'components/common/input';
-import   InputCustom   from 'components/common/input';
+import  {InputPassword }  from 'components/common/input';
+import   {InputCustom}   from 'components/common/input';
 import { useRouter } from 'next/router';
 import ButtonCustom from 'components/common/button';
 
@@ -18,16 +18,17 @@ export default function Signup() {
             const isEmail = values.email.includes('@');
             const email = isEmail ? values.email : '';
             const phoneNumber = isEmail ? '' : values.email;
+            const isHost = false;
 
             const dataToSend = {
                 email,
                 phoneNumber,
                 password: values.password,
-                name: values.name
+                name: values.name,
+                isHost
             };
             const response = await fetch('http://47.128.244.84:8001/auth/register', {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -36,6 +37,7 @@ export default function Signup() {
 
             if (response.ok) {
                 message.success('Registration successful');
+                router.push('login');
             } else {
                 message.error('Registration failed');
             }

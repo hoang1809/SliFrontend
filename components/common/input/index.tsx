@@ -7,7 +7,7 @@ interface InputPropsCustom extends InputProps {
   w?: string;
   error?: boolean;
 }
-const InputCustom = (props: InputPropsCustom) => {
+export const InputCustom = (props: InputPropsCustom) => {
   const { w, error, placeholder } = props;
   const widthInput = w ? w : 'w-full';
   const borderInput =
@@ -16,15 +16,14 @@ const InputCustom = (props: InputPropsCustom) => {
     <Input
       {...props}
       placeholder={placeholder ?? 'Placeholder'}
-      className={` ${widthInput} ${borderInput} h-[46px] ${
-        error ? 'border-[red] border-[1px] border-solid' : ''
-      }`}
+      className={` ${widthInput} ${borderInput} h-[46px] ${error ? 'border-[red] border-[1px] border-solid' : ''
+        }`}
     />
   );
 };
 
 
-const InputPassword = (props: InputPropsCustom) => {
+export const InputPassword = (props: InputPropsCustom) => {
   const { w, error, placeholder } = props;
   const widthInput = w ? w : 'w-full';
   const borderInput =
@@ -33,14 +32,13 @@ const InputPassword = (props: InputPropsCustom) => {
     <Input.Password
       {...props}
       placeholder={placeholder ?? 'Placeholder'}
-      className={` ${widthInput} ${borderInput} h-12 ${
-        error ? 'border-[red] border-[1px] border-solid' : ''
-      }`}
+      className={` ${widthInput} ${borderInput} h-12 ${error ? 'border-[red] border-[1px] border-solid' : ''
+        }`}
     />
   );
 };
 
-interface InputSearchProps {
+export interface InputSearchProps {
   onChange?: (val: string) => void;
   onSearchClick?: () => void;
 }
@@ -69,6 +67,4 @@ const InputSearchCustom = ({ onChange, onSearchClick }: InputSearchProps) => {
   );
 };
 
-export  { InputSearchCustom };
-export { InputPassword };
-export default InputCustom ;
+

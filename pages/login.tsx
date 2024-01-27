@@ -3,7 +3,7 @@ import Link from 'next/link';
 import TempalteLogin from 'components/templates/login';
 import { Form, Checkbox, message } from 'antd';
 import  {InputPassword } from 'components/common/input';
-import InputCustom from 'components/common/input';
+import {InputCustom} from 'components/common/input';
 import ButtonCustom from 'components/common/button';
 import { useRouter } from "next/router"
 
@@ -11,9 +11,6 @@ import { useRouter } from "next/router"
 export default function Login() {
     const router = useRouter()
 
-    // const onFinish = (values: any) => {
-    //     router.push('/')
-    // };
 
     const onFinish = async (values: any) => {
         try {
@@ -29,7 +26,6 @@ export default function Login() {
       
           const response = await fetch('http://47.128.244.84:8001/auth/login', {
             method: 'POST',
-            mode: 'no-cors',
             headers: {
               'Content-Type': 'application/json',
             },
@@ -37,7 +33,10 @@ export default function Login() {
           });
       
           if (response.ok) {
+            const responseData = await response.json();
+            localStorage.setItem('access_token', responseData.access_token);
             message.success('Login successful');
+            router.push('/');
           } else {
             message.error('Login failed. Please check your credentials.');
           }
@@ -94,7 +93,7 @@ export default function Login() {
 
             <div className='flex justify-center text-[17px]'>
                     <p>Chưa có tài khoản?</p>
-                    <Link href="/signup">
+                    <Link href="/register">
                         <a className='font-bold text-[#f2584c] hover:text-orange-700' href="signup">Đăng ký ngay</a>
                     </Link>
             </div>

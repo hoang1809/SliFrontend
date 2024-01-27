@@ -2,7 +2,7 @@ import Head from 'next/head';
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux';
 import 'styles/reset.scss';
-import 'antd/dist/antd.css';
+//import 'antd/dist/antd.css';
 import 'styles/global.scss';
 import 'styles/custom-antd.scss';
 import 'styles/app.scss';

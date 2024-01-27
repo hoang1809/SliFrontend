@@ -1,7 +1,7 @@
 import logo from 'public/assets/icons/logo.svg';
 import Image from 'next/image';
 import TempalteLogin from 'components/templates/login';
-import { Form} from 'antd';
+import { Form, message} from 'antd';
 import passwordIcon from 'public/assets/icons/password.svg'
 import { InputPassword } from 'components/common/input';
 import ButtonCustom from 'components/common/button';
@@ -10,9 +10,38 @@ import { useRouter } from 'next/router';
 export default function Signup() {
     const router = useRouter()
 
-    const onFinish = (values: any) => {
-        router.push('login')
+    const onFinish = async (values: any) => {
+        try {
+            const password = values.password;
+            const email = getEmailFromLocalStorage(); // Get the stored email from localStorage
+
+            const response = await fetch(`http://47.128.244.84:8001/auth/reset-password/${email}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    password,
+                }),
+            });
+
+            if (response.ok) {
+                message.success('Password reset successfully');
+                router.push('login'); // Assuming you want to navigate to the login page after resetting the password
+            } else {
+                message.error('Failed to reset password. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error resetting password:', error);
+            message.error('Failed to reset password. Please try again later.');
+        }
     };
+
+    const getEmailFromLocalStorage = () => {
+        // Retrieve the stored email from localStorage
+        return localStorage.getItem('verificationEmail') || '';
+    };
+    
     return (
         <TempalteLogin>
             <div className="flex max-h-full flex-col items-center">
@@ -63,13 +92,7 @@ export default function Signup() {
                     </Form.Item>
                     
                     <Form.Item>
-                        {/* <Button 
-                            block
-                            type="primary"
-                            htmlType="submit"
-                            className='h-[72px] bg-[#F2584C] rounded-[16px] hover:bg-[#F2584C] border-none p-2.5 justify-center items-center'>TIẾP TỤC
-                        </Button> */}
-                        <ButtonCustom type='primary' href='login'>TIẾP TỤC</ButtonCustom>
+                        <ButtonCustom type='primary' htmlType="submit">TIẾP TỤC</ButtonCustom>
                     </Form.Item>
                 </Form>
             </div>

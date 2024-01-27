@@ -1,17 +1,46 @@
 import logo from 'public/assets/icons/logo.svg';
 import Image from 'next/image';
 import TempalteLogin from 'components/templates/login';
-import { Button, Form, Input,} from 'antd';
+import { Button, Form, Input, message, } from 'antd';
 import nameIcon from 'public/assets/icons/email.svg'
-import  InputCustom  from 'components/common/input';
+import { InputCustom } from 'components/common/input';
 import ButtonCustom from 'components/common/button';
 import { useRouter } from 'next/router';
 
 export default function Login() {
     const router = useRouter()
 
-    const onFinish = (values: any) => {
-        router.push('resetpassword')
+    const onFinish = async (values: any) => {
+        try {
+            const otp = values.otp;
+            const email = getEmailFromLocalStorage(); // Get the stored email from localStorage
+
+            const response = await fetch('http://47.128.244.84:8001/auth/email/validate-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    otp,
+                }),
+            });
+
+            if (response.ok) {
+                message.success('Verification successful');
+                router.push('resetpassword'); // Assuming you want to navigate to the reset password page after successful verification
+            } else {
+                message.error('Failed to verify. Please check the entered code and try again.');
+            }
+        } catch (error) {
+            console.error('Error verifying code:', error);
+            message.error('Failed to verify. Please try again later.');
+        }
+    };
+
+    const getEmailFromLocalStorage = () => {
+        // Retrieve the stored email from localStorage
+        return localStorage.getItem('verificationEmail') || '';
     };
     return (
         <TempalteLogin>
@@ -25,7 +54,7 @@ export default function Login() {
 
             <div className="w-full">
                 <Form onFinish={onFinish} className='flex flex-col space-y-10'>
-                    <Form.Item label='' name="username" className='mb-0'>
+                    <Form.Item label='' name="otp" className='mb-0'>
                         <div className="flex items-center m-0 space-x-6">
                             <Image src={nameIcon}></Image>
                             <InputCustom
@@ -33,17 +62,11 @@ export default function Login() {
                                 placeholder="Nhập mã xác nhận"
                                 required></InputCustom>
                         </div>
-                        
+
                     </Form.Item>
-                    
+
                     <Form.Item>
-                        {/* <Button 
-                            block
-                            type="primary"
-                            htmlType="submit"
-                            className='h-[72px] bg-[#F2584C] rounded-[16px] hover:bg-[#F2584C] border-none p-2.5 justify-center items-center'>TIẾP TỤC
-                        </Button> */}
-                        <ButtonCustom type='primary' href='resetpassword'>TIẾP TỤC</ButtonCustom>
+                        <ButtonCustom type='primary' htmlType="submit">TIẾP TỤC</ButtonCustom>
                     </Form.Item>
                 </Form>
             </div>

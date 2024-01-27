@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 
 interface CardProps {
   title: string;
@@ -9,25 +8,26 @@ interface CardProps {
   area: number;
 }
 
-const Cards = ({title, address, image,  price, area,}: CardProps) => {
-  return (
 
-    <div className="hover:shadow-lg h-[557px] w-[402px] flex flex-col rounded-2xl border border-none bg-white">
+
+const Cards = ({ title, address, image, price, area, }: CardProps) => {
+  let src: string = `http://47.128.244.84:8001/room/uploaded/${String(image[0])}`;
+  return (
+    <div className="h-[557px] rounded-2xl hover:shadow-md bg-white flex flex-col">
       <div>
-        <img className="w-full h-[360px] border-none rounded-t-2xl overflow-hidden mb-4" src='/bg.png' />
+        <img className="w-full h-[360px] rounded-t-2xl overflow-hidden mb-4" src={src} alt="Property" />
       </div>
-      <div className="px-4 pb-4 flex-col flex-1">
-        <div className="text-zinc-800 text-xl font-medium leading-7">{title}</div>
-        <div className="text-neutral-400 text-[17px] font-normal leading-normal ">{address}</div>
+      <div className="flex-1 flex-col pb-4 px-4">
+        <div className="text-zinc-800 text-xl font-medium leading-7 text-ellipsis overflow-hidden">{title}</div>
+        <div className="text-neutral-400 text-[17px] font-normal leading-normal">{address}</div>
         <div className="flex justify-between">
-          <div className="text-[32px] font-semibold leading-[44.80px] text-[#F2584C]">{price}đ</div>
-          <div className="flex justify-between w-1/5 text-zinc-800 self-center text-[17px] font-normal">
-            <Image src='/assets/icons/area.svg' height='24px' width='24px'></Image>
-            <div>{area}m2</div>
-          </div>
+          <div className="text-[32px] font-semibold leading-[44.80px] text-[#F2584C]">{price}</div>
+          <div className="text-zinc-800 self-center text-[17px] font-normal">{area}</div>
         </div>
       </div>
     </div>
+
+
 
 
   )

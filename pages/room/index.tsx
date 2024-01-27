@@ -1,33 +1,55 @@
-// pages/postlist.tsx
+import Cards from 'components/cards';
+import Header from 'components/layout/header/Header';
+import { PostList } from 'models/model';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
-import Link from "next/link";
-import Cards from "components/cards";
-import Header from "components/layout/header";
-import { GetServerSideProps } from "next";
-import { PostList } from "models/PostList";
+function PostListPage() {
+  const [posts, setPosts] = useState<PostList['data']>([]);
+  const [isLoading, setLoading] = useState(true);
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  
-  const res = await fetch("http://47.128.244.84:8001/room");
-  const data = await res.json();
-  console.log(data);
+  useEffect(() => {
+    const fetchData = () => {
+      fetch('http://47.128.244.84:8001/room')
+        .then((res) => res.json())
+        .then((postData: PostList['data']) => {
+          setPosts(postData);
+          console.log(postData)
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        });
+    };
 
-  return {
-    props: {
-      data,
-    },
-  };
-};
+    // Fetch data initially
+    fetchData();
 
-export default function PostListPage({ data }: PostList ) {
+    // Set up interval to fetch data every 5 seconds
+    const intervalId = setInterval(fetchData, 5000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!posts || posts.length === 0) return <p>No posts available</p>;
+
   return (
     <>
       <Header />
       <div className="bg-[#F5F5F5] px-36 py-6 grid grid-cols-4 gap-6">
-        {data.map((item, index) => (
+        {posts.map((item, index) => (
           <Link key={index} href={`/room/${item.id}`}>
             <a>
-              <Cards image={item.image} title={item.title} address={item.address} price={item.price} area={item.area} />
+              <Cards
+                image={item.image}
+                title={item.title}
+                address={item.address}
+                price={item.price}
+                area={item.area}
+              />
             </a>
           </Link>
         ))}
@@ -35,3 +57,5 @@ export default function PostListPage({ data }: PostList ) {
     </>
   );
 }
+
+export default PostListPage;

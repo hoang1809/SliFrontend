@@ -1,14 +1,37 @@
 import ButtonCustom from 'components/common/button';
 import TempalteLogin from 'components/templates/login';
-import {Form} from 'antd';
-import  InputCustom  from 'components/common/input';
+import {Form, message} from 'antd';
+import  {InputCustom}  from 'components/common/input';
 import { useRouter } from 'next/router';
 
 export default function Login() {
     const router = useRouter()
 
-    const onFinish = (values: any) => {
-        router.push('verificationcode')
+    const onFinish = async (values: any) => {
+        try {
+            const email = values.email;
+            localStorage.setItem('verificationEmail', email);
+
+            const response = await fetch('http://47.128.244.84:8001/auth/email/forgot-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                }),
+            });
+
+            if (response.ok) {
+                message.success('Verification code sent successfully');
+                router.push('verificationcode'); // Assuming you want to navigate to the verification code page after sending the code
+            } else {
+                message.error('Failed to send verification code. Please check your email.');
+            }
+        } catch (error) {
+            console.error('Error sending verification code:', error);
+            message.error('Failed to send verification code. Please try again later.');
+        }
     };
     return (
         <TempalteLogin>
@@ -22,7 +45,7 @@ export default function Login() {
 
             <div className="w-full">
                 <Form onFinish={onFinish} className='flex flex-col space-y-10'>
-                    <Form.Item label='' name="username" className='mb-0' rules={[{pattern: /^(?:\d{10,11}|\S+@\S+\.\S+)$/, message:'Số điện thoại hoặc email không hợp lệ!'}]}>
+                    <Form.Item label='' name="email" className='mb-0' rules={[{pattern: /^(?:\d{10,11}|\S+@\S+\.\S+)$/, message:'Số điện thoại hoặc email không hợp lệ!'}]}>
                         <div className="flex items-center m-0 space-x-6">
                             <img src="/assets/icons/email.svg" alt="" />
                             <InputCustom
