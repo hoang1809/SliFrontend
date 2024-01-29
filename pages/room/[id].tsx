@@ -11,10 +11,17 @@ export default function RoomDetailsPage() {
     const [roomDetails, setRoomDetails] = useState<RoomDetails | null>(null);
     const [isLoading, setLoading] = useState(true);
     const [form] = Form.useForm();
-    // const bigImg = (window.innerWidth)*(0.38);
-    // const smallImg = (window.innerWidth)*(0.2364);
+    let bigImg, smallImg;
 
-    
+    if (typeof window !== 'undefined') {
+        bigImg = window.innerWidth * 0.38;
+        smallImg = window.innerWidth * 0.2364;
+    } else {
+        bigImg = 748;
+        smallImg = 454;
+    }
+
+
 
 
     const formatter = (value: any) => `${value}đ`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -82,15 +89,15 @@ export default function RoomDetailsPage() {
                     items={roomDetails.image.map(img => `http://47.128.244.84:8001/room/uploaded/${img}`)}
                 >
                     <div className="w-full h-[568px] rounded-2xl overflow-hidden justify-start items-start gap-3 inline-flex">
-                        <Image className="object-cover " width={748} height={568} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[0]}`} />
+                        <Image className="object-cover " width={bigImg} height={568} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[0]}`} />
                         <div className="grow shrink basis-0 self-stretch flex-col justify-start items-start gap-3 inline-flex">
-                            <Image className="object-cover" width={454} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[1]}`} />
-                            <Image className="object-cover" width={454} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[2]}`} />
+                            <Image className="object-cover" width={smallImg} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[1]}`} />
+                            <Image className="object-cover" width={smallImg} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[2]}`} />
                         </div>
                         <div className="grow shrink basis-0 self-stretch flex-col justify-start items-start gap-3 inline-flex">
-                            <Image className="object-cover" width={454} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[3]}`} />
+                            <Image className="object-cover" width={smallImg} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[3]}`} />
                             <div className="h-[278px] relative">
-                                <Image  className="object-cover" width={454} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[4]}`} />
+                                <Image className="object-cover" width={smallImg} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[4]}`} />
                                 <div className="w-full h-[278px] py-[94px] left-0 top-0 absolute bg-black bg-opacity-50 justify-center items-center inline-flex pointer-events-none">
                                     <div className="text-center text-white text-[64px] leading-[89.60px]">+{roomDetails.image.length - 5}</div>
                                 </div>
