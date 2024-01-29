@@ -23,7 +23,7 @@ function PostListPage() {
       });
   };
 
-
+  const formatter = (value: any) => `${value}đ`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('access_token');
@@ -99,11 +99,16 @@ function PostListPage() {
                   <img className="w-full h-[360px] rounded-t-2xl overflow-hidden mb-4" src={`http://47.128.244.84:8001/room/uploaded/${String(item.image[0])}`} alt="Property" />
                 </div>
                 <div className="flex-1 flex-col pb-4 px-4">
-                  <div className="text-zinc-800 text-xl font-medium leading-7 text-ellipsis overflow-hidden">{item.title}</div>
-                  <div className="text-neutral-400 text-[17px] font-normal leading-normal">{item.address}</div>
+                  <div className='h-[70px] text-ellipsis overflow-hidden'>
+                    <div className="text-zinc-800 w-full text-xl font-medium leading-7 text-ellipsis overflow-hidden">{item.title}</div>
+                  </div>
+                  <div className="text-neutral-400 h-[45px] text-ellipsis overflow-hidden text-[17px] font-normal leading-normal">{item.address}</div>
                   <div className="flex justify-between">
-                    <div className="text-[32px] font-semibold leading-[44.80px] text-[#F2584C]">{item.price}</div>
-                    <div className="text-zinc-800 self-center text-[17px] font-normal">{item.area}</div>
+                    <div className="text-[32px] font-semibold leading-[44.80px] text-[#F2584C]">{formatter(item.price)}</div>
+                    <div className='flex space-x-2'>
+                      <img src="assets/icons/area.svg" alt="m2" />
+                      <div className="text-zinc-800 self-center text-[17px] font-normal">{item.area}m2</div>
+                    </div>
                   </div>
                 </div>
               </div>

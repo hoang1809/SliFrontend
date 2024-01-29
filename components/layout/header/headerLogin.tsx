@@ -40,7 +40,11 @@ const HeaderLogin = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
-        router.push('/');
+        if (window.location.pathname === '/') {
+            window.location.reload();
+        } else {
+            router.push('/');
+        }
     };
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
@@ -77,7 +81,7 @@ const HeaderLogin = () => {
 
     return (
         <div>
-            <div className="w-full bg-white shadow-md">
+            <div className="bg-white shadow-md">
                 <div className="flex h-24 px-[120px] py-[24px] justify-between">
 
                     <div onClick={handleGoHome} className='flex cursor-pointer'>

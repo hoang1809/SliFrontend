@@ -1,7 +1,7 @@
 import logo from 'public/assets/icons/logo.svg';
 import Image from 'next/image';
 import TempalteLogin from 'components/templates/login';
-import { Button, Form, Input, message, } from 'antd';
+import { Form, message, } from 'antd';
 import nameIcon from 'public/assets/icons/email.svg'
 import { InputCustom } from 'components/common/input';
 import ButtonCustom from 'components/common/button';
@@ -13,7 +13,7 @@ export default function Login() {
     const onFinish = async (values: any) => {
         try {
             const otp = values.otp;
-            const email = getEmailFromLocalStorage(); // Get the stored email from localStorage
+            const email = getEmailFromLocalStorage();
 
             const response = await fetch('http://47.128.244.84:8001/auth/email/validate-otp', {
                 method: 'POST',
@@ -27,10 +27,9 @@ export default function Login() {
             });
 
             if (response.ok) {
-                message.success('Verification successful');
-                router.push('resetpassword'); // Assuming you want to navigate to the reset password page after successful verification
+                router.push('resetpassword');
             } else {
-                message.error('Failed to verify. Please check the entered code and try again.');
+                message.error('mã xác nhận không đúng, vui lòng kiểm tra lại');
             }
         } catch (error) {
             console.error('Error verifying code:', error);
@@ -39,7 +38,6 @@ export default function Login() {
     };
 
     const getEmailFromLocalStorage = () => {
-        // Retrieve the stored email from localStorage
         return localStorage.getItem('verificationEmail') || '';
     };
     return (

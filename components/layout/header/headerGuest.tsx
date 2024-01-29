@@ -15,7 +15,7 @@ const HeaderGuest = () => {
   };
   return (
     <div>
-      <div className="w-full bg-white shadow-md">
+      <div className="bg-white shadow-md">
         <div className="flex h-24 px-[120px] py-[24px] justify-between">
           <div onClick={handleGoHome} className='flex cursor-pointer'>
             <Image src={logo} alt="Logo"></Image>

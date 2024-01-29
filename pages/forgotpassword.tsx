@@ -24,7 +24,7 @@ export default function Login() {
 
             if (response.ok) {
                 message.success('Verification code sent successfully');
-                router.push('verificationcode'); // Assuming you want to navigate to the verification code page after sending the code
+                router.push('verificationcode');
             } else {
                 message.error('Failed to send verification code. Please check your email.');
             }

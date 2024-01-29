@@ -11,8 +11,10 @@ function RoomDetailsPage() {
     const [roomDetails, setRoomDetails] = useState<RoomDetails | null>(null);
     const [isLoading, setLoading] = useState(true);
     const [form] = Form.useForm();
+    
 
-    console.log(id)
+
+    const formatter = (value: any) => `${value}đ`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 
     const fetchData = async () => {
@@ -71,7 +73,7 @@ function RoomDetailsPage() {
     return (
         <>
             <Header></Header>
-            <div className="bg-[#F5F5F5] py-6 w-full flex-col px-[120px] space-y-6 rounded-2xl">
+            <div className="bg-[#F5F5F5] py-6 flex-col px-[120px] space-y-6 rounded-2xl">
 
                 <Image.PreviewGroup
                     items={roomDetails.image.map(img => `http://47.128.244.84:8001/room/uploaded/${img}`)}
@@ -85,7 +87,7 @@ function RoomDetailsPage() {
                         <div className="grow shrink basis-0 self-stretch flex-col justify-start items-start gap-3 inline-flex">
                             <Image className="object-cover" width={454} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[3]}`} />
                             <div className="w-[454px] h-[278px] relative">
-                                <Image className="object-cover" width={454} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[4]}`} />
+                                <Image  className="object-cover" width={454} height={278} src={`http://47.128.244.84:8001/room/uploaded/${roomDetails.image[4]}`} />
                                 <div className="w-[454px] h-[278px] py-[94px] left-0 top-0 absolute bg-black bg-opacity-50 justify-center items-center inline-flex pointer-events-none">
                                     <div className="text-center text-white text-[64px] leading-[89.60px]">+{roomDetails.image.length - 5}</div>
                                 </div>
@@ -107,7 +109,7 @@ function RoomDetailsPage() {
                             <div className="grid grid-cols-3 gap-6">
                                 <div>
                                     <div className="text-zinc-800 mb-1 text-[17px] font-normal">Giá phòng</div>
-                                    <div className="text-zinc-800 text-xl font-medium">{roomDetails.price}đ</div>
+                                    <div className="text-zinc-800 text-xl font-medium">{formatter(roomDetails.price)}</div>
                                 </div>
                                 <div>
                                     <div className="text-zinc-800 mb-1 text-[17px] font-normal">Diện tích</div>

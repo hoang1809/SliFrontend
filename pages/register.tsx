@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import TempalteLogin from 'components/templates/login';
 import { Form, message } from 'antd';
-import  {InputPassword }  from 'components/common/input';
-import   {InputCustom}   from 'components/common/input';
+import { InputPassword } from 'components/common/input';
+import { InputCustom } from 'components/common/input';
 import { useRouter } from 'next/router';
 import ButtonCustom from 'components/common/button';
 
@@ -39,7 +39,12 @@ export default function Signup() {
                 message.success('Registration successful');
                 router.push('login');
             } else {
-                message.error('Registration failed');
+                const responseData = await response.json();
+                if (responseData.message === "Email ready axist!" || "Phone number ready axist!") {
+                    message.error('Thông tin đăng nhập đã tồn tại');
+                } else {
+                    message.error('Registration failed');
+                }
             }
         } catch (error) {
             console.error('Error during registration:', error);
