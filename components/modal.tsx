@@ -3,8 +3,8 @@ import { Modal, Form, Radio, Slider, Space } from 'antd';
 import { useRouter } from 'next/router';
 
 const ModalFilter = () => {
-    const [priceRange, setPriceRange] = useState([500000, 5000000]);
-    const [areaRange, setAreaRange] = useState([10, 100]);
+    const [priceRange, setPriceRange] = useState([500000, 15000000]);
+    const [areaRange, setAreaRange] = useState([10, 200]);
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm();
     const router = useRouter();
@@ -95,7 +95,7 @@ const ModalFilter = () => {
                                 <Slider
                                     range
                                     min={500000}
-                                    max={5000000}
+                                    max={15000000}
                                     tooltip={{ formatter: null }}
                                     value={priceRange}
                                     onChange={handlePriceChange}
@@ -111,7 +111,7 @@ const ModalFilter = () => {
                                 <Slider
                                     range
                                     min={10}
-                                    max={100}
+                                    max={200}
                                     tooltip={{ formatter: null }}
                                     value={areaRange}
                                     onChange={handleAreaChange}
