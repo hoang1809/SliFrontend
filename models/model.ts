@@ -6,6 +6,11 @@ export interface PostList {
     address: string;
     price: number;
     area: number;
+    likedBy: {
+      user: {
+        id: number
+      }
+    }[]
   }[];
 }
 

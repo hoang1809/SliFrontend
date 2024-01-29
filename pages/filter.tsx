@@ -1,35 +1,37 @@
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { PostList, UserProfile } from 'models/model'; // Importing the PostList interface from the models directory
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { PostList, UserProfile} from 'models/model';
 import Header from 'components/layout/header/Header';
 import { message } from 'antd';
+import Link from 'next/link';
 
-const ResultsPage = () => {
+
+const FilterPage = () => {
   const router = useRouter();
   const [posts, setPosts] = useState<PostList['data']>([]);
   const [userId, setUserId] = useState<number | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const { address } = router.query;
-
-
+  const { sortBy, search_price_min, search_price_max,search_area_min, search_area_max } = router.query;
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://47.128.244.84:8001/room/search', {
+      const response = await fetch('http://47.128.244.84:8001/room/filter', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            address
+            sortBy,
+            search_price_min,
+            search_price_max,
+            search_area_min,
+            search_area_max,
         })
       });
 
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
-        console.log(data)
       } else {
         console.error('Error filtering rooms:', response.statusText);
       }
@@ -45,10 +47,10 @@ const ResultsPage = () => {
     if (storedAccessToken) {
       fetchUserId(storedAccessToken);
     }
-    if (address) {
+    if (sortBy && search_price_min && search_price_max && search_area_min && search_area_max) {
       fetchData();
     }
-  }, [address]);
+  }, [sortBy, search_price_min, search_price_max, search_area_min, search_area_max]);
 
 
   const fetchUserId = async (accessToken: string) => {
@@ -98,6 +100,7 @@ const ResultsPage = () => {
   };
 
 
+
   return (
     <>
       <Header />
@@ -130,4 +133,4 @@ const ResultsPage = () => {
   );
 };
 
-export default ResultsPage;
+export default FilterPage;

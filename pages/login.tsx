@@ -17,11 +17,13 @@ export default function Login() {
           const isEmail = values.username.includes('@');
           const email = isEmail ? values.username : '';
           const phoneNumber = isEmail ? '' : values.username;
+          const isHost = false
       
           const dataToSend = {
             email,
             phoneNumber,
             password: values.password,
+            isHost
           };
       
           const response = await fetch('http://47.128.244.84:8001/auth/login', {
@@ -35,10 +37,9 @@ export default function Login() {
           if (response.ok) {
             const responseData = await response.json();
             localStorage.setItem('access_token', responseData.access_token);
-            message.success('Login successful');
             router.push('/');
           } else {
-            message.error('Login failed. Please check your credentials.');
+            message.error('Đăng nhập thất bại, vui lòng điền đúng thông tin.');
           }
         } catch (error) {
           console.error('Error during login:', error);

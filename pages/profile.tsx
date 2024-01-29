@@ -27,7 +27,6 @@ const Profile: React.FC = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                // Replace with your actual access token
                 const accessToken = localStorage.getItem('access_token');
                 const profileUrl = 'http://47.128.244.84:8001/auth/profile';
 
@@ -113,7 +112,7 @@ const Profile: React.FC = () => {
 
                 message.success('Cập nhật thành công');
             } else {
-                message.warning('No file selected.');
+                message.warning('Bạn chưa chọn ảnh');
             }
         } catch (error) {
             console.error('Error updating account:', error);

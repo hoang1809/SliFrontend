@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import logo from 'public/assets/icons/logo.svg'
 import searchIcon from 'public/assets/icons/search-normal.svg'
-import filterIcon from 'public/assets/icons/filter.svg'
 import Image from 'next/image';
 import { Avatar, Dropdown, MenuProps, Space, message } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { UserProfile } from 'models/model';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import ModalFilter from 'components/modal';
+import Searchbar from 'components/searchbar';
 
 
 
@@ -74,20 +75,6 @@ const HeaderLogin = () => {
         fetchUserProfile();
     }, []);
 
-
-    const [searchQuery, setSearchQuery] = useState('');
-
-    const handleSearch = (event: any) => {
-        event.preventDefault();
-        // Redirect to search results page with search query
-        router.push(`/search?search_query=${encodeURIComponent(searchQuery)}`);
-    };
-
-    const handleChange = (event: any) => {
-        setSearchQuery(event.target.value);
-    };
-
-
     return (
         <div>
             <div className="w-full bg-white shadow-md">
@@ -102,22 +89,10 @@ const HeaderLogin = () => {
 
                     <div className="flex">
                         <div className="flex w-[656px] border border-solid border-neutral-400 overflow-hidden rounded-full">
-                            <form className="flex w-full px-4 items-center" onSubmit={handleSearch}>
-                                <input
-                                    name='address'
-                                    type="search"
-                                    className="flex-1 text-[17] focus:outline-none"
-                                    placeholder="Bạn muốn an cư nơi nào?"
-                                    value={searchQuery}
-                                    onChange={handleChange}
-                                />
-                                <button type="submit" className="h-[24px]">
-                                    <Image src={searchIcon} alt="Search"></Image>
-                                </button>
-                            </form>
+                            <Searchbar></Searchbar>
                         </div>
-                        <div className="ml-6 w-[48px] border border-solid border-neutral-400 rounded-full justify-center items-center inline-flex">
-                            <Image src={filterIcon}></Image>
+                        <div className="ml-6 w-[48px] border border-solid border-neutral-400 rounded-full flex justify-center items-center">
+                            <ModalFilter></ModalFilter>
                         </div>
                     </div>
 

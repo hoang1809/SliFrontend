@@ -12,26 +12,27 @@ function RoomDetailsPage() {
     const [isLoading, setLoading] = useState(true);
     const [form] = Form.useForm();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`http://47.128.244.84:8001/room/${id}`);
-                if (response.ok) {
-                    const data: RoomDetails = await response.json();
-                    setRoomDetails(data);
-                    setLoading(false);
-                } else {
-                    throw new Error('Failed to fetch room details');
-                }
-            } catch (error) {
-                console.error('Error fetching room details:', error);
-                setLoading(false);
-            }
-        };
-        fetchData();
-        const intervalId = setInterval(fetchData, 5000);
+    console.log(id)
 
-        return () => clearInterval(intervalId);
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`http://47.128.244.84:8001/room/${id}`);
+            if (response.ok) {
+                const data: RoomDetails = await response.json();
+                setRoomDetails(data);
+                setLoading(false);
+            } else {
+                throw new Error('Failed to fetch room details');
+            }
+        } catch (error) {
+            console.error('Error fetching room details:', error);
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
     }, [id]);
 
 
@@ -55,13 +56,14 @@ function RoomDetailsPage() {
                 console.log('Comment posted successfully');
                 form.resetFields();
             }
+            fetchData();
         } catch (error) {
             console.error('Error posting comment:', error);
         }
     };
 
     if (isLoading) return <p>Loading...</p>;
-    if (!roomDetails) return <p>No room details available</p>;
+    if (!roomDetails) return <p></p>;
 
     let utilities: string[] = JSON.parse('[' + (roomDetails?.utilities || '').slice(1, -1).replace(/([^,]+)/g, '"$1"') + ']');
 
@@ -72,7 +74,6 @@ function RoomDetailsPage() {
             <div className="bg-[#F5F5F5] py-6 w-full flex-col px-[120px] space-y-6 rounded-2xl">
 
                 <Image.PreviewGroup
-                    // Inside Image.PreviewGroup component
                     items={roomDetails.image.map(img => `http://47.128.244.84:8001/room/uploaded/${img}`)}
                 >
                     <div className="w-[1680px] h-[568px] rounded-2xl overflow-hidden justify-start items-start gap-3 inline-flex">
