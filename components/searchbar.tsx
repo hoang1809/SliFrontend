@@ -8,6 +8,9 @@ import { InputCustom } from './common/input';
 export default function Searchbar() {
     const router = useRouter();
     const onFinish = (values: any) => {
+        if(values.address == "") {
+            return;
+        }
         const { address } = values;
         router.push({
             pathname: '/search',

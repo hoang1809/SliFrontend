@@ -84,7 +84,7 @@ function PostListPage() {
   if (!posts || posts.length === 0) return <p className='absolute bottom-10 left-1/2 transform -translate-x-1/2'>No posts available</p>;
 
   return (
-    <>
+    <div className='bg-[#F5F5F5] h-screen'>
       <Header />
       <div className="bg-[#F5F5F5] px-36 py-6 grid grid-cols-4 gap-6">
         {posts.map((item, index) => {
@@ -116,7 +116,7 @@ function PostListPage() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 

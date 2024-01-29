@@ -100,7 +100,7 @@ const ResultsPage = () => {
 
 
   return (
-    <>
+    <div className='bg-[#F5F5F5] h-screen'>
       <Header />
       <div className="bg-[#F5F5F5] px-36 py-6 grid grid-cols-4 gap-6">
         {posts.map((item, index) => {
@@ -132,7 +132,7 @@ const ResultsPage = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 
