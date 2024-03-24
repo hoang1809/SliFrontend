@@ -72,35 +72,33 @@ export default function Home() {
         const sorted = [...posts].sort(function(a, b){return a.title-b.title});
         setPosts(ascending ? sorted : sorted.reverse());
         setAscending(!ascending);
-    }
+    };
     const sortPrice = () => {
         const sorted = [...posts].sort(function(a, b){return a.price-b.price});
         setPosts(ascending ? sorted : sorted.reverse());
         setAscending(!ascending);
-    }
+    };
     const sortArea = () => {
         const sorted = [...posts].sort(function(a, b){return a.area-b.area});
         setPosts(ascending ? sorted : sorted.reverse());
         setAscending(!ascending);
-    }
+    };
     
     const sortCapacity = () => {
         const sorted = [...posts].sort(function(a, b){return a.capacity-b.capacity});
         setPosts(ascending ? sorted : sorted.reverse());
         setAscending(!ascending);
-    }
-
+    };
     const sortFloor = () => {
         const sorted = [...posts].sort(function(a, b){return a.floor-b.floor});
         setPosts(ascending ? sorted : sorted.reverse());
         setAscending(!ascending);
-    }
-
+    };
     const sortStatus = () => {
         const sorted = [...posts].sort(function(a, b){return Number(a.available) - Number(b.available)});
         setPosts(ascending ? sorted : sorted.reverse());
         setAscending(!ascending);
-    }
+    };
     
 
 
