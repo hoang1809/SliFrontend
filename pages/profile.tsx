@@ -1,143 +1,70 @@
-import React, { useEffect, useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { Modal, Upload, Button, message, Input, Form } from 'antd';
-import type { GetProp, UploadFile, UploadProps } from 'antd';
-import { UserProfile } from 'models/model';
-import Header from 'components/layout/header/Header';
-import Link from 'next/link';
-
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-const getBase64 = (file: FileType): Promise<string> =>
-    new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = (error) => reject(error);
-    });
-
-const Profile: React.FC = () => {
-    const [previewOpen, setPreviewOpen] = useState(false);
-    const [previewImage, setPreviewImage] = useState('');
-    const [previewTitle, setPreviewTitle] = useState('');
-    const [fileList, setFileList] = useState<UploadFile[]>([]);
-
-    const [form] = Form.useForm();
-
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const accessToken = localStorage.getItem('access_token');
-                const profileUrl = 'http://47.128.244.84:8001/auth/profile';
-
-                const response = await fetch(profileUrl, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch user profile. Status: ${response.status}`);
-                }
-
-                const userProfile: UserProfile = await response.json();
-
-                form.setFieldsValue({
-                    name: userProfile.name,
-                    email: userProfile.email,
-                    phoneNumber: userProfile.phoneNumber,
-                });
+import Header from 'components/layout/header/Header'
+import React from 'react'
+import { Button, DatePicker, Form, Input, message } from 'antd';
+import dvr from 'public/assets/icons/dvr.png'
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 
+function Test2() {
+    const router = useRouter()
 
-                setFileList([
-                    {
-                        uid: '-1',
-                        name: 'image.png',
-                        status: 'done',
-                        url: userProfile.avatar ? `http://47.128.244.84:8001/user/uploaded/${userProfile.avatar}` : '/assets/icons/blank.png'
-                    },
-                ]);
-            } catch (error) {
-                console.error('Error fetching user profile:', error);
-            }
-        };
+    // const onFinish = async (values: any) => {
+    //     try {
+    //         const month = values.DoB["$M"] + 1;
+    //         const day = values.DoB["$D"];
+    //         const year = values.DoB["$y"];
+    //         const formattedDate = day + "/" + month + "/" + year;
 
-        fetchUserProfile();
-    }, []);
-
-    const handleCancel = () => setPreviewOpen(false);
-
-    const handlePreview = async (file: UploadFile) => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj as FileType);
-        }
-
-        setPreviewImage(file.url || (file.preview as string));
-        setPreviewOpen(true);
-        setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
-    };
-
-    const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-        // Limit the fileList to at most one item
-        const newFileListLimited = newFileList.slice(-1);
-        setFileList(newFileListLimited);
-    };
-
-    const handleSave = async () => {
-        const accessToken = localStorage.getItem('access_token');
-
-        if (!accessToken) {
-            message.error('Access token is missing.');
-            return;
-        }
-
-        try {
-            const apiUrl = 'http://47.128.244.84:8001/user/update-account';
-
-            // Assuming you want to send the first file in the list (if available)
-            const file = fileList[0];
-
-            if (file) {
-                const formData = new FormData();
-                formData.append('avatar', file.originFileObj as File);
-
-                await fetch(apiUrl, {
-                    method: 'PUT',
-                    body: formData,
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                message.success('Cập nhật thành công');
-            } else {
-                message.warning('Bạn chưa chọn ảnh');
-            }
-        } catch (error) {
-            console.error('Error updating account:', error);
-            message.error('Failed to update account. Please try again.');
-        }
-    };
-
-    const uploadButton = (
-        <button style={{ border: 0, background: 'none' }} type="button">
-            <PlusOutlined />
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </button>
-    );
+    //         const dataToSend = {
+    //             name: values.name,
+    //             Student_ID: values.id,
+    //             DoB: formattedDate,
+    //             phoneNumber: values.phoneNumber
+    //         };
+    //         const response = await fetch('http://localhost:8001/user/update-account', {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify(dataToSend),
+    //         });
+    //         if (response.ok) {
+    //             const responseData = await response.json();
+    //             localStorage.setItem('access_token', responseData.access_token);
+    //             router.push('/');
+    //         } else {
+    //             message.error('Đăng nhập thất bại, vui lòng điền đúng thông tin.');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error during login:', error);
+    //         message.error('Login failed. Please try again later.');
+    //     }
+    // };
 
     const onFinish = async (values: any) => {
         try {
             const accessToken = localStorage.getItem('access_token');
 
-            const response = await fetch('http://47.128.244.84:8001/user/update-account', {
+            const month = values.DoB["$M"] + 1;
+            const day = values.DoB["$D"];
+            const year = values.DoB["$y"];
+            const formattedDate = day + "/" + month + "/" + year;
+
+            const dataToSend = {
+                name: values.name,
+                Student_ID: values.id,
+                DoB: formattedDate,
+                phoneNumber: values.phoneNumber
+            };
+
+            const response = await fetch('http://localhost:8001/user/update-account', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify(dataToSend),
             });
 
             if (response.ok) {
@@ -150,78 +77,43 @@ const Profile: React.FC = () => {
         }
     };
 
-    const handleCancelbutton = () => {
-        form.resetFields();
-    };
-
     return (
-        <div>
-            <Header></Header>
-            <div className="bg-[#F5F5F5] min-h-screen w-full flex justify-center">
-                <div className="h-screen p-6 mt-6 w-1/2 bg-white rounded-2xl">
-                    <div className="text-zinc-800 text-[32px] font-semibold">Thiết lập tài khoản</div>
-                    <Link href="/updatepassword">
-                        <Button className="my-8">Cài đặt mật khẩu</Button>
-                    </Link>
-                    <div className='flex-col justify-start mb-8'>
-                        <Upload
-                            listType="picture-circle"
-                            fileList={fileList}
-                            onPreview={handlePreview}
-                            onChange={handleChange}
-                        >
-                            {fileList.length >= 1 ? null : uploadButton}
-                        </Upload>
-                        <Button type="primary" style={{ backgroundColor: '#1890ff', color: '#fff' }} className='ml-4' onClick={handleSave}>
-                            Lưu ảnh
-                        </Button>
-                        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-                            <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                        </Modal>
-                    </div>
-                    <div>
-                        <Form form={form} onFinish={onFinish} layout="vertical" initialValues={{
-                            name: form.getFieldValue('name'),
-                            email: form.getFieldValue('email'),
-                            phoneNumber: form.getFieldValue('phoneNumber'),
-                        }} >
-                            <Form.Item
-                                name="name"
-                                label="Họ và tên"
-                            >
-                                <Input required />
-                            </Form.Item>
+        <div className='min-w-screen h-screen bg-[#f3f5f9]'>
+            <Header setSearchTerm=''></Header>
+            <div className='w-full flex justify-center p-10'>
+                <div className='w-1/3 bg-white p-9 rounded-2xl'>
+                    <p className='font-semibold text-[#273895] text-3xl'>Update information</p>
+                    <Image src={dvr}></Image>
+                    <Form
+                        layout="vertical"
+                        style={{ maxWidth: 600 }}
+                        onFinish={onFinish}
+                        className='mt-5'
+                    >
 
-                            <Form.Item
-                                name="phoneNumber"
-                                label="Số điện thoại"
-                                rules={[{ pattern: /^\d{9,11}$/, message: 'Vui lòng điền số điện thoại hợp lệ' }]}
-                            >
-                                <Input required />
-                            </Form.Item>
+                        <Form.Item name='name' label="Name:">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item name='id' label="Student id:">
+                            <Input />
+                        </Form.Item>
 
-                            <Form.Item
-                                name="email"
-                                label="Email"
-                                rules={[{ pattern: /^\S+@\S+\.\S+$/, type: 'email', message: 'Vui lòng điền địa chỉ email hợp lệ' }]}
-                            >
-                                <Input required />
-                            </Form.Item>
-
-                            <Form.Item className='flex justify-end'>
-                                <Button type="primary" htmlType="submit" style={{ backgroundColor: '#1890ff', color: '#fff' }}>
-                                    Lưu
-                                </Button>
-                                <Button type="default" onClick={handleCancelbutton} style={{ marginLeft: 8 }}>
-                                    Huỷ
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </div>
+                        <Form.Item name='DoB' label="Date of birth:">
+                            <DatePicker />
+                        </Form.Item>
+                        <Form.Item name='phoneNumber' label="Phone number:">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item className='flex justify-end'>
+                            <Button type="primary" htmlType="submit" style={{ backgroundColor: '#273895', color: '#fff' }}>
+                                Save
+                            </Button>
+                        </Form.Item>
+                    </Form>
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default Profile;
+export default Test2

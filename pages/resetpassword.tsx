@@ -1,6 +1,6 @@
-import logo from 'public/assets/icons/logo.svg';
-import Image from 'next/image';
 import TempalteLogin from 'components/templates/login';
+import logo from 'public/assets/icons/usthicon.png';
+import Image from 'next/image';
 import { Form, message} from 'antd';
 import passwordIcon from 'public/assets/icons/password.svg'
 import { InputPassword } from 'components/common/input';
@@ -13,7 +13,7 @@ export default function Signup() {
     const onFinish = async (values: any) => {
         try {
             const password = values.password;
-            const email = getEmailFromLocalStorage(); // Get the stored email from localStorage
+            const email = getEmailFromLocalStorage();
 
             const response = await fetch(`http://47.128.244.84:8001/auth/reset-password/${email}`, {
                 method: 'PUT',
@@ -27,7 +27,7 @@ export default function Signup() {
 
             if (response.ok) {
                 message.success('Password reset successfully');
-                router.push('login'); // Assuming you want to navigate to the login page after resetting the password
+                router.push('login');
             } else {
                 message.error('Failed to reset password. Please try again.');
             }
@@ -38,14 +38,13 @@ export default function Signup() {
     };
 
     const getEmailFromLocalStorage = () => {
-        // Retrieve the stored email from localStorage
         return localStorage.getItem('verificationEmail') || '';
     };
     
     return (
         <TempalteLogin>
             <div className="flex max-h-full flex-col items-center">
-                <Image src={logo} height="80px" width="120px"></Image>
+            <Image src={logo} height='250px' className='object-scale-down'></Image>
                 <div className="text-zinc-800 text-[40px] font-['Montserrat Alternates'] mt-9">ĐẶT LẠI MẬT KHẨU</div>
             </div>
 

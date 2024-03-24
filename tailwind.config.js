@@ -35,5 +35,5 @@ module.exports = {
       'bg-img' : "url('/assets/images/bg-3.png')",
     }
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  // plugins: [require('@tailwindcss/line-clamp')],
 };

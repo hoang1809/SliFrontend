@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import TempalteLogin from 'components/templates/login';
-import { Form, message } from 'antd';
+import logo from 'public/assets/icons/usthicon.png';
+import { DatePicker, Form, Select, message } from 'antd';
 import { InputPassword } from 'components/common/input';
 import { InputCustom } from 'components/common/input';
 import { useRouter } from 'next/router';
@@ -8,6 +10,7 @@ import ButtonCustom from 'components/common/button';
 
 export default function Signup() {
     const router = useRouter()
+    const { RangePicker } = DatePicker;
 
     // const onFinish = (values: any) => {
     //     router.push('login')
@@ -15,19 +18,31 @@ export default function Signup() {
     const onFinish = async (values: any) => {
         try {
 
-            const isEmail = values.email.includes('@');
-            const email = isEmail ? values.email : '';
-            const phoneNumber = isEmail ? '' : values.email;
+            // const isEmail = values.email.includes('@');
+            // const email = isEmail ? values.email : '';
+            // const phoneNumber = isEmail ? '' : values.email;
             const isHost = false;
 
+            const month = values.DoB["$M"] + 1;
+            const day = values.DoB["$D"];
+            const year = values.DoB["$y"];
+            const formattedDate = day + "/" + month + "/" + year;
+
             const dataToSend = {
-                email,
-                phoneNumber,
-                password: values.password,
                 name: values.name,
+                email: values.email,
+                phoneNumber: values.phoneNumber,
+                password: values.password,
+                gender: values.gender,
+                DoB: formattedDate,
+                year_start: values.intake[0]["$y"],
+                year_graduated: values.intake[1]["$y"],
+                Student_ID: values.id,
                 isHost
             };
-            const response = await fetch('http://47.128.244.84:8001/auth/register', {
+
+            console.log(dataToSend)
+            const response = await fetch('http://localhost:8001/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,12 +66,31 @@ export default function Signup() {
             message.error('Registration failed');
         }
     };
+    // const onFinish = (values: any) => {
+    //     const month = values.DoB["$M"] + 1;
+    //     const day = values.DoB["$D"];
+    //     const year = values.DoB["$y"];
+    //     const formattedDate = day + "/" + month + "/" + year;
+
+    //     const dataToSend = {
+    //         name: values.name,
+    //         Student_id: values.id,
+    //         gender: values.gender,
+    //         dob: formattedDate,
+    //         year_start: values.intake[0]["$y"],
+    //         year_graduate: values.intake[1]["$y"],
+    //         email: values.email,
+    //         phoneNumber: values.phoneNumber
+    //     };
+
+    //     console.log(dataToSend);
+    // }
 
     return (
         <TempalteLogin>
             <div className="flex max-h-full flex-col items-center">
-                <img src="/assets/icons/logo.svg" className='h-20 w-[120px]' alt="" />
-                <div className="text-zinc-800 text-[40px] font-['Montserrat Alternates'] mt-9">ĐĂNG KÝ</div>
+                <Image src={logo} height='250px' className='object-scale-down'></Image>
+                <div className="text-zinc-800 text-[40px] font-['Montserrat Alternates'] mt-6">SIGN UP</div>
             </div>
 
             <div className="w-full">
@@ -66,21 +100,71 @@ export default function Signup() {
                             <img src="/assets/icons/user-square.svg" alt="usernameicon" />
                             <InputCustom
                                 style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
-                                placeholder="Họ và tên"
+                                placeholder="Name"
                                 required></InputCustom>
                         </div>
                     </Form.Item>
 
-                    <Form.Item label='' name="email" className='mb-0' rules={[{ pattern: /^(?:\d{10}|\S+@\S+\.\S+)$/, message: 'Số điện thoại hoặc email không hợp lệ!' }]}>
+                    <Form.Item label='' name="id" className='mb-0'>
+                        <div className="flex items-center m-0 space-x-6">
+                            <img src="/assets/icons/idcard.svg" alt="usernameicon" />
+                            <InputCustom
+                                style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
+                                placeholder="Student ID"
+                                required></InputCustom>
+                        </div>
+                    </Form.Item>
+
+                    <Form.Item label='' name="phoneNumber" className='mb-0' rules={[{ pattern:  /^\d{10,11}$/, message: 'Số điện thoại không hợp lệ!' }]}>
+                        <div className="flex items-center m-0 space-x-6">
+                            <img src="/assets/icons/phone.svg" alt="phoneicon" />
+                            <InputCustom
+                                style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
+                                placeholder="Phone number"
+                                required></InputCustom>
+                        </div>
+                    </Form.Item>
+
+                    <Form.Item label='' name="email" className='mb-0' rules={[{ pattern:  /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Email không hợp lệ!' }]}>
                         <div className="flex items-center m-0 space-x-6">
                             <img src="/assets/icons/email.svg" alt="emailicon" />
                             <InputCustom
                                 style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
-                                placeholder="Nhập email hoặc số điện thoại"
+                                placeholder="Email address"
                                 required></InputCustom>
                         </div>
                     </Form.Item>
 
+                    <Form.Item name='gender' label={<img src="/assets/icons/gender.svg" alt="gendericon" />} colon={false}>
+
+                        <Select
+                            placeholder='Gender'
+                            style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
+                        >
+                            <Select.Option value="Male">Nam</Select.Option>
+                            <Select.Option value="Female">Nữ</Select.Option>
+                        </Select>
+
+
+                    </Form.Item>
+
+                    <Form.Item name='DoB' label={<img src="/assets/icons/dob.svg" alt="dobicon" />} colon={false}>
+
+                        <DatePicker
+                            placeholder='Date of birth'
+                            style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
+                        />
+
+                    </Form.Item>
+                    <Form.Item name='intake' label={<img src="/assets/icons/date.svg" alt="dobicon" />} colon={false}>
+
+                        <RangePicker
+                            picker="year"
+                            placeholder={['Start', 'End']}
+                            style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
+                        />
+
+                    </Form.Item>
 
                     <Form.Item label="" name="password"
                         rules={[
@@ -93,7 +177,7 @@ export default function Signup() {
                             <img src="/assets/icons/password.svg" alt="passwordicon" />
                             <InputPassword
                                 style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
-                                placeholder="Nhập mật khẩu"
+                                placeholder="Password"
                                 required></InputPassword>
                         </div>
                     </Form.Item>
@@ -115,21 +199,21 @@ export default function Signup() {
                             <img src="/assets/icons/password.svg" alt="passwordicon" />
                             <InputPassword
                                 style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
-                                placeholder="Nhập lại mật khẩu"
+                                placeholder="Confirm password"
                                 required></InputPassword>
                         </div>
                     </Form.Item>
 
                     <Form.Item>
-                        <ButtonCustom type='primary' htmlType='submit'>ĐĂNG KÝ</ButtonCustom>
+                        <ButtonCustom type='primary' htmlType='submit'>SIGN UP</ButtonCustom>
                     </Form.Item>
                 </Form>
             </div>
 
             <div className='flex justify-center text-[17px]'>
-                <p>Đã có tài khoản?</p>
+                <p>Already have an account?</p>
                 <Link href="/login">
-                    <a className='font-bold text-[#f2584c] hover:text-orange-700' href="">Đăng nhập ngay</a>
+                    <a className='font-bold text-[#273895] hover:text-blue-700' href="">Login</a>
                 </Link>
             </div>
         </TempalteLogin>

@@ -12,7 +12,7 @@ const ButtonCustom = (props: IButton) => {
   const widthBtn = fullwidth ? 'w-full' : 'w-full';
   let classNameCustom = '';
   if (btntype === 'primary') {
-    classNameCustom += 'bg-[#F2584C]';
+    classNameCustom += 'bg-[#273895]';
   }
   if (btntype === 'secondary') {
     classNameCustom +=
@@ -25,7 +25,7 @@ const ButtonCustom = (props: IButton) => {
     <Button
       {...props}
       loading={loading}
-      className={`${classNameCustom} flex justify-center items-center border-none hover:bg-[#F2584C] focus:bg-[#F2584C] ${widthBtn} ${heightBtn} ${borderRadiusBtn} ${className}`}
+      className={`${classNameCustom} flex justify-center items-center border-none hover:bg-[#273895] focus:bg-[#273895] ${widthBtn} ${heightBtn} ${borderRadiusBtn} ${className}`}
     >
       <span className={`font-bold ${className} `}>{children}</span>
     </Button>

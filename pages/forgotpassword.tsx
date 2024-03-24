@@ -1,5 +1,7 @@
 import ButtonCustom from 'components/common/button';
 import TempalteLogin from 'components/templates/login';
+import logo from 'public/assets/icons/usthicon.png';
+import Image from 'next/image';
 import {Form, message} from 'antd';
 import  {InputCustom}  from 'components/common/input';
 import { useRouter } from 'next/router';
@@ -36,7 +38,7 @@ export default function Login() {
     return (
         <TempalteLogin>
             <div className="flex max-h-full flex-col items-center">
-                <img src="/assets/icons/logo.svg" className='h-20 w-[120px]' alt="" />
+            <Image src={logo} height='250px' className='object-scale-down'></Image>
                 <div className="text-zinc-800 text-[40px] font-['Montserrat Alternates'] mt-10">QUÊN MẬT KHẨU</div>
                 <div className="text-zinc-800 text-[17px] font-normal font-['Montserrat'] mt-4 leading-normal">
                     Vui lòng điền số điện thoại/email để xác nhận

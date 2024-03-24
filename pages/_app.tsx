@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <Head>
-        <title>SLI Home</title>
+        <title>USTH</title>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1" />
       </Head>
       <Component {...pageProps} />

@@ -1,71 +1,89 @@
-export interface PostList {
-  data: {
+export interface Room {
     id: number;
-    title: string;
-    image: string[];
-    address: string;
-    price: number;
+    title: number;
+    capacity: number;
     area: number;
-    likedBy: {
-      user: {
-        id: number
-      }
-    }[]
-  }[];
-}
+    price: number;
+    electricity: number;
+    water: number;
+    wifi: number;
+    deadline: number;
+    floor: number;
+    available: boolean;
+    users: [];
+}[];
 
 export interface RoomDetails {
   id: number;
-  title: string;
-  address: string;
-  image: string[]; 
-  description: string;
-  name: string;
-  price: number;
+  title: number
+  capacity: string;
   area: number;
-  capacity: number;
-  electricityPrice: number;
-  waterPrice: number;
-  wifiPrice: number;
-  serviceCharge: number | null;
-  laundryFee: number | null; 
-  utilities: string; 
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
-  user: {
-    id: number;
+  price: number;
+  electricity: number;
+  water: number;
+  wifi: number;
+  deadline: string;
+  floor: number;
+  available: boolean;
+  users: {
     name: string;
     email: string;
-    phoneNumber: string | null;
-    avatar: string | null;
-  };
-  comments: {
     id: number;
-    content: string;
-    createdAt: string;
-    user: {
-      id: number;
-      name: string;
-      email: string;
-      phoneNumber: string | null;
-      avatar: string | null;
-      role: string;
-    };
   }[];
+  issues: {
+    id: number;
+    content:string
+  }[];
+  contracts: {
+    id: number;
+    startDate: string;
+    endDate: string;
+  };
+  // user: {
+  //   id: number;
+  //   name: string;
+  //   email: string;
+  //   phoneNumber: string | null;
+  //   avatar: string | null;
+  // };
+  // comments: {
+  //   id: number;
+  //   content: string;
+  //   createdAt: string;
+  //   user: {
+  //     id: number;
+  //     name: string;
+  //     email: string;
+  //     phoneNumber: string | null;
+  //     avatar: string | null;
+  //     role: string;
+  //   };
+  // }[];
 }
 
-
-
 export interface UserProfile {
-  id: number;
+  id: number
   name: string;
   email: string;
-  phoneNumber: string;
-  avatar: string | null;
-  role: string;
-  isLocked: boolean;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
+  phoneNumber: number;
+  gender: string;
+  DoB: string;
+  year_start: number;
+  year_graduated: number;
+  Student_ID: string;
+  room: {
+    id: number,
+    title: number,
+    deadline: number,
+  }
+  // id: number;
+  // name: string;
+  // email: string;
+  // phoneNumber: string;
+  // avatar: string | null;
+  // role: string;
+  // isLocked: boolean;
+  // createdAt: string;
+  // updatedAt: string;
+  // deletedAt: string | null;
 }

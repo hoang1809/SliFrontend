@@ -6,7 +6,6 @@ import { Layout } from 'antd';
 const { Content } = Layout;
 const TempalteLogin = ({ children }: LayoutProps) => {
   return (
-
     <>
       <div
         style={{
@@ -17,9 +16,9 @@ const TempalteLogin = ({ children }: LayoutProps) => {
         }}
       >
         <Image 
-          src="/bg.png"
+          src="/bg2.jpg"
           layout='fill'
-          objectFit='cover'
+          objectFit='fill'
           className="filter blur-sm">
         </Image>
       </div>

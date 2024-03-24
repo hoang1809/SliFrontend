@@ -1,32 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import searchIcon from 'public/assets/icons/search-normal.svg';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { Form } from 'antd';
 import { InputCustom } from './common/input';
+import { useRouter } from 'next/router';
 
-export default function Searchbar() {
+export default function Searchbar({ setSearchTerm }: { setSearchTerm: any }) {
     const router = useRouter();
+    // const onFinish = (values: any) => {
+    //     const { room } = values;
+    //     if(!room) {
+    //         return;
+    //     }
+    //     router.push({
+    //         pathname: '/newsearch',
+    //         query: {
+    //             room
+    //         }
+    //     });
+    // };
     const onFinish = (values: any) => {
-        const { address } = values;
-        if(!address) {
-            return;
-        }
-        router.push({
-            pathname: '/search',
-            query: {
-                address
-            }
-        });
-    };
+        const { room } = values;
+        setSearchTerm(room);
+        console.log(room);
+        router.push('/');
+    }
+
     return (
         <div className="w-full px-4">
             <Form  onFinish={onFinish} className='flex justify-between'>
-                <Form.Item name="address" className='mb-0'>
+                <Form.Item name="room" className='mb-0'>
 
                     <InputCustom
-                        style={{ border: 'none', boxShadow: 'none', outline: 'none', width: '550px' }}
-                        placeholder="Bạn muốn an cư nơi nào?"
+                        style={{ border: 'none', boxShadow: 'none', outline: 'none', width: '200px' }}
+                        placeholder="Search room id/floor"
                     ></InputCustom>
                 </Form.Item>
 

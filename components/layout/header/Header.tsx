@@ -3,7 +3,7 @@ import HeaderGuest from "./headerGuest"
 import HeaderLogin from "./headerLogin"
 
 
-export default function Header() {
+export default function Header({ setSearchTerm }: { setSearchTerm: any }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export default function Header() {
             position: 'relative',
           }}>
             
-            {isLoggedIn ? <HeaderLogin /> : <HeaderGuest/>}
+            {isLoggedIn ? <HeaderLogin setSearchTerm={setSearchTerm}/> : <HeaderGuest setSearchTerm={setSearchTerm}/>}
         </div>
     )
 }

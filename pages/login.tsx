@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import logo from 'public/assets/icons/usthicon.png';
 import TempalteLogin from 'components/templates/login';
 import { Form, Checkbox, message } from 'antd';
 import  {InputPassword } from 'components/common/input';
@@ -14,46 +15,45 @@ export default function Login() {
 
     const onFinish = async (values: any) => {
         try {
-          const isEmail = values.username.includes('@');
-          const email = isEmail ? values.username : '';
-          const phoneNumber = isEmail ? '' : values.username;
-          const isHost = false
-      
-          const dataToSend = {
+            const isEmail = values.username.includes('@');
+            const email = isEmail ? values.username : '';
+            const phoneNumber = isEmail ? '' : values.username;
+            const isHost = false
+
+            const dataToSend = {
             email,
             phoneNumber,
             password: values.password,
             isHost
-          };
-      
-          const response = await fetch('http://47.128.244.84:8001/auth/login', {
+            };
+        const response = await fetch('http://localhost:8001/auth/login', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(dataToSend),
-          });
-      
-          if (response.ok) {
+        });
+        if (response.ok) {
             const responseData = await response.json();
             localStorage.setItem('access_token', responseData.access_token);
+            localStorage.setItem('user_email', email);
             router.push('/');
-          } else {
+        } else {
             message.error('Đăng nhập thất bại, vui lòng điền đúng thông tin.');
-          }
-        } catch (error) {
-          console.error('Error during login:', error);
-          message.error('Login failed. Please try again later.');
         }
-      };
+        } catch (error) {
+            console.error('Error during login:', error);
+            message.error('Login failed. Please try again later.');
+        }
+    };
 
     return (
         <TempalteLogin>
             <div className="flex max-h-full flex-col items-center">
-                <Image src='/assets/icons/logo.svg' height="80px" width="120px"></Image>
-                <div className="text-zinc-800 text-[40px] font-['Montserrat Alternates'] mt-10">ĐĂNG NHẬP</div>
-                <div className="text-zinc-800 text-[17px] font-normal font-['Montserrat'] mt-4 leading-normal">
-                    Vui lòng điền số điện thoại/email và mật khẩu để đăng nhập
+                <Image src={logo} height='250px' className='object-scale-down'></Image>
+                <div className="text-zinc-800 text-[40px] font-['Montserrat Alternates'] mt-6">LOGIN</div>
+                <div className="text-zinc-800 text-[17px] font-normal font-['Montserrat'] mt-3 leading-normal">
+                    Please enter your email address and password to login
                 </div>
             </div>
 
@@ -64,7 +64,7 @@ export default function Login() {
                             <Image src='/assets/icons/email.svg' height='36px' width='36px'></Image>
                             <InputCustom
                                 style={{ border: 'none',boxShadow:'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
-                                placeholder="Nhập email hoặc số điện thoại"
+                                placeholder="Enter email address"
                                 required></InputCustom>
                         </div>
                         
@@ -74,28 +74,27 @@ export default function Login() {
                             <Image src='/assets/icons/password.svg' height='36px' width='36px'></Image>
                             <InputPassword
                                 style={{ border: 'none', borderBottom: '1px solid #D9D9D9', outline: 'none' }}
-                                placeholder="Nhập mật khẩu" 
+                                placeholder="Enter password" 
                                 required></InputPassword>
                         </div>
                     </Form.Item>
                     <div className='flex justify-between'>
                         <Form.Item name="remember" valuePropName="checked">
-                            <Checkbox>Lưu mật khẩu</Checkbox>
+                            <Checkbox>Save password</Checkbox>
                         </Form.Item>
                         <Link href="/forgotpassword">
-                            <a className='underline' href="">Quên mật khẩu? </a>
+                            <a className='underline' href="">Forgot password? </a>
                         </Link>
                     </div>
                     <Form.Item>
-                        <ButtonCustom type='primary' htmlType='submit'>ĐĂNG NHẬP</ButtonCustom>
+                        <ButtonCustom type='primary' htmlType='submit'>LOGIN</ButtonCustom>
                     </Form.Item>
                 </Form>
             </div>
 
             <div className='flex justify-center text-[17px]'>
-                    <p>Chưa có tài khoản?</p>
                     <Link href="/register">
-                        <a className='font-bold text-[#f2584c] hover:text-orange-700' href="signup">Đăng ký ngay</a>
+                        <a className='font-semibold text-[#273895] hover:text-blue-700' href="signup">Sign up</a>
                     </Link>
             </div>
         </TempalteLogin>

@@ -12,7 +12,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          {/* <link rel="icon" href="/favicon.svg" /> */}
+          <link rel="icon" href="/assets/icons/usthicon.png" />
           <meta charSet="utf-8" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link

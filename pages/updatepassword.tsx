@@ -1,85 +1,64 @@
-import { Button, Form, Input, Space, message } from "antd";
-import Header from "components/layout/header/Header";
-import Link from "next/link";
-import React from 'react';
+import { Button, Form, Input, message } from 'antd'
+import Header from 'components/layout/header/Header'
+import React from 'react'
+import Image from 'next/image'
+import dvr from 'public/assets/icons/dvr.png'
 
+function test8() {
 
-export default function UpdatePassword() {
-  const [form] = Form.useForm();
-  const onFinish = async (values: any) => {
-    try {
-      const accessToken = localStorage.getItem('access_token');
+    const onFinish = async (values: any) => {
+        try {
+            const accessToken = localStorage.getItem('access_token');
 
-      const response = await fetch('http://47.128.244.84:8001/user/update/password', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(values),
-      });
+            const response = await fetch('http://localhost:8001/user/update/password', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(values),
+            });
 
-      if (response.ok) {
-        message.success('Cập nhật thành công');
-      } else {
-        message.error(`Error updating account: ${response.statusText}`);
-      }
-    } catch (error) {
-      console.error('Error updating account:', error);
-    }
-  };
+            if (response.ok) {
+                message.success('Cập nhật thành công');
+            } else {
+                message.error(`Error updating account: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error('Error updating account:', error);
+        }
+    };
+    return (
+        <div className='min-w-screen h-screen bg-[#f3f5f9]'>
+            <Header setSearchTerm=''></Header>
+            <div className='w-full flex justify-center p-10'>
+                <div className='w-1/3 bg-white p-9 rounded-2xl'>
+                    <p className='font-semibold text-[#273895] text-3xl'>Password setting</p>
+                    <Image src={dvr}></Image>
+                    <Form
+                        layout="vertical"
+                        style={{ maxWidth: 600 }}
+                        onFinish={onFinish}
+                        className='mt-5'
+                    >
 
-  const onReset = () => {
-    form.resetFields();
-  };
-  return (
+                        <Form.Item label="Old password" name="oldPassword">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="New password" name="newPassword">
+                            <Input />
+                        </Form.Item>
 
-
-    <div>
-      <Header></Header>
-      <div className="bg-[#F5F5F5] min-h-screen w-full flex justify-center">
-        <div className="h-screen p-6 mt-6 w-1/2 bg-white rounded-2xl">
-          <div className="text-zinc-800 text-[32px] font-semibold mb-8">Thiết lập tài khoản</div>
-          <Link href="/profile">
-            <Button className="mb-8">Hồ sơ tài khoản</Button>
-          </Link>
-          <div>
-            <Form
-              form={form}
-              layout="vertical"
-              name="control-hooks"
-              onFinish={onFinish}
-              style={{ maxWidth: 600 }}
-            >
-              <Form.Item
-                label="Mật khẩu cũ"
-                name="oldPassword"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                label="Mật khẩu mới"
-                name="newPassword"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-              >
-                <Input.Password />
-              </Form.Item>
-              <Form.Item className='flex justify-end'>
-                <Space>
-                  <Button type="primary" htmlType="submit" style={{ backgroundColor: '#1890ff', color: '#fff' }}>
-                    Lưu
-                  </Button>
-                  <Button htmlType="button" onClick={onReset} >
-                    Huỷ
-                  </Button>
-                </Space>
-              </Form.Item>
-            </Form>
-          </div>
+                        <Form.Item className='flex justify-end'>
+                            <Button type="primary" htmlType="submit" style={{ backgroundColor: '#273895', color: '#fff' }}>
+                                Save
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  )
+    )
 }
+
+export default test8
